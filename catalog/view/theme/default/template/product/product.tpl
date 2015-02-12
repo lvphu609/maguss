@@ -147,13 +147,17 @@
           <div class="btn-group">
             <button type="button" data-toggle="tooltip" class="btn btn-default popper_color_detail" title="More color"><i class="glyphicon glyphicon-leaf"></i></button>
             <button type="button" data-toggle="tooltip" class="btn btn-default" title="<?php echo $button_wishlist; ?>" onclick="wishlist.add('<?php echo $product_id; ?>');"><i class="fa fa-heart"></i></button>
+            <button type="button" data-toggle="tooltip" class="btn btn-default" title="<?php echo $button_compare; ?>" onclick="compare.add('<?php echo $product_id; ?>');"><i class="fa fa-exchange"></i></button>
           </div>
           <?php // echo $product_id; ?>
 
           <div class="popper-color-content hide">
             <?php if(count($group_product_color)>0) : ?>
+              <?php $colorUsed = array(); ?>
               <?php foreach ($group_product_color as $key => $groupColor) : ?>
-                  <div  class="color-item-product-detail <?php echo ($key == 0 ? 'active' : ''); ?>" style="background-color:<?php echo $groupColor['color']; ?>">
+                <?php if (!in_array($groupColor['color'], $colorUsed)) : ?>
+                  <?php array_push($colorUsed, $groupColor['color']); ?>
+                  <div  class="color-item-product-detail <?php echo ($key == 0 ? 'active' : ''); ?>" style="background-color:<?php echo $groupColor['color']; ?>" data-color="<?php echo $groupColor['color']; ?>">
                     <div class="group-color hide">
                         <?php if(count($groupColor['images']) > 0) : ?>
                             <?php foreach ($groupColor['images'] as $key => $img) : ?>
@@ -167,6 +171,7 @@
                         <?php endif; ?>
                     </div>
                   </div>
+                <?php endif; ?>
               <?php endforeach; ?>
             <?php endif; ?>              
           </div>
@@ -348,9 +353,35 @@
               <div class="help-block" id="recurring-description"></div>
             </div>
             <?php } ?>
+            <!-- phucnguyen -->
+            <div class="form-group">
               <label class="control-label" for="input-quantity"><?php echo $entry_qty; ?></label>
-              <input type="text" name="quantity" value="<?php echo $minimum; ?>" size="2" id="input-quantity" class="form-control" />
+              <div class="input-group">                
+                <input type="text" name="quantity" value="<?php echo $minimum; ?>" size="2" id="input-quantity" class="form-control" />
+                <?php if (count($group_product_color) > 0) : ?>
+                  <?php
+                    $firstColor = $group_product_color[0]['color'];
+                    $productSize = array();
+                    foreach ($group_product_color as $key => $value) {
+                      if ($value['color'] == $firstColor) {
+                        $productSize[(int)array_search($value['size']['size'], $list_product_size)] = $value['size'];  
+                      }
+                    }
+                    ksort($productSize);
+                  ?>
+                  <div class="input-group-btn product-detail-size">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Size <span class="pan-select-size"></span> <span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                      <?php foreach ($productSize as $key => $row) : ?>
+                        <li><a href="#" class="size-item"><?php echo $row['label']; ?></a></li>
+                      <?php endforeach; ?>
+                    </ul>
+                  </div>
+                <?php endif; ?>
+              </div>              
               <input type="hidden" name="product_id" value="<?php echo $product_id; ?>" />
+              <div id="hid-quantity-detail" class="hide"><?php echo json_encode($group_product_color); ?></div>
+
               <br />
               <button type="button" id="button-cart" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary btn-lg btn-block"><?php echo $button_cart; ?></button>
             </div>
@@ -392,16 +423,7 @@
         <?php } ?>
         <div class="<?php echo $class; ?>">
           <div class="product-thumb transition product-id-<?php echo $product['product_id']; ?>">
-            <div class="popper-color-content hide">
-              <?php  $product_thumb = ""; ?>
-              <?php if(count($product['quantity_detail'])>0) : ?>
-                <?php foreach($product['quantity_detail'] as $key => $row):?>
-                   <?php  if($key == 0) $product_thumb = $row['images'][0]['url'];  ?>
-                   <div class="color-item" style="background-color:<?php echo $row['color'] ?>" data-url="<?php echo $row['images'][0]['url'] ?>" data-root="product-id-<?php echo $product['product_id']; ?>"></div>
-                <?php endforeach; ?>
-              <?php endif; ?>
-            </div>
-            <div class="image"><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product_thumb; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive" /></a></div>
+            <div class="image"><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive" /></a></div>
             <div class="caption">
               <h4><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></h4>
               <p><?php echo $product['description']; ?></p>
@@ -433,6 +455,19 @@
               <button type="button" onclick="cart.add('<?php echo $product['product_id']; ?>');"><span class="hidden-xs hidden-sm hidden-md"><?php echo $button_cart; ?></span> <i class="fa fa-shopping-cart"></i></button>
               <button class="popper_color" type="button" data-toggle="popover" title="More color"><i class="glyphicon glyphicon-leaf"></i></button> 
               <button type="button" data-toggle="tooltip" title="<?php echo $button_wishlist; ?>" onclick="wishlist.add('<?php echo $product['product_id']; ?>');"><i class="fa fa-heart"></i></button>
+              <button type="button" data-toggle="tooltip" title="<?php echo $button_compare; ?>" onclick="compare.add('<?php echo $product['product_id']; ?>');"><i class="fa fa-exchange"></i></button>
+            </div>
+            <div class="popper-color-content hide">
+              <?php if(count($product['quantity_detail'])>0) : ?>
+                <?php $colorUsed = array(); ?>                
+                <?php foreach($product['quantity_detail'] as $key => $row):?>
+                  <?php if (!in_array($row['color'], $colorUsed)) : ?>
+                    <?php array_push($colorUsed, $row['color']); ?>
+                    <div class="color-item" style="background-color:<?php echo $row['color'] ?>" data-url="<?php echo $row['images'][0]['url'] ?>" data-root="product-id-<?php echo $product['product_id']; ?>">
+                    </div>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+              <?php endif; ?>
             </div> 
           </div>
         </div>

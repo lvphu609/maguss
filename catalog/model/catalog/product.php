@@ -1,5 +1,9 @@
 <?php
 class ModelCatalogProduct extends Model {
+	public function getProductSize() {
+		return array('XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL');
+	}
+	
 	public function updateViewed($product_id) {
 		$this->db->query("UPDATE " . DB_PREFIX . "product SET viewed = (viewed + 1) WHERE product_id = '" . (int)$product_id . "'");
 	}
