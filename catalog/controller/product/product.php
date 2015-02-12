@@ -274,6 +274,7 @@ class ControllerProductProduct extends Controller {
 				$qtyDetail = array();
 			}
 			$data['group_product_color'] = $qtyDetail;
+			$data['list_product_size'] = $this->model_catalog_product->getProductSize();
 			//end product detail
 
 			$this->load->model('catalog/review');

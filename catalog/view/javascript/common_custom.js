@@ -38,17 +38,45 @@ var morColor = {
 	      placement: 'bottom',
 	      container: 'body',
 	      html: true,
-	      //trigger: 'focus',
+	      trigger: 'focus',
 	      content: function () {
 	          return $(this).parent().parent().find('.popper-color-content').html();
 	      }
 		});
 		$(document).on('click','.color-item-product-detail',function(){
-			var groupColorImage = $(this).find('.group-color').html();
+			var groupColorImage = $(this).find('.group-color').html(),
+				currColor = $(this).data('color');
 
-			$('.popper_color_detail').data('color', $(this).css('backgroundColor'));
+			$('.popper_color_detail').data('color', currColor);
 			$(this).closest('.popover-content').find('.color-item-product-detail').removeClass('active');
 			$(this).addClass('active');
+
+			var quantityDetail = $('#hid-quantity-detail').text(),
+				productDetailSize = $('.product-detail-size'),
+				panSizeSelect = productDetailSize.find('.pan-select-size'),
+				sizeList = productDetailSize.find('ul'),
+				keepCurrSize = false;
+
+			quantityDetail = JSON.parse(quantityDetail);
+			sizeList.html('');
+			if (quantityDetail.length > 0) {
+				for (var i = 0; i < quantityDetail.length; i++) {
+					if (quantityDetail[i].color == currColor) {
+						var itemActive = '';
+						if (panSizeSelect.text() != '' && quantityDetail[i].size.label == panSizeSelect.text()) {
+							keepCurrSize = true;
+							itemActive = 'class="active"';
+						}
+						var li = $('<li ' + itemActive + '><a href="#" class="size-item">' + quantityDetail[i].size.label + '</a></li>');
+						sizeList.append(li);
+					}
+				}
+				if (!keepCurrSize) {
+					panSizeSelect.text('');
+				}
+			}
+
+			// append new image
 			$('#box-product-image').html(groupColorImage);
 		});
 
@@ -61,12 +89,23 @@ var morColor = {
 			}
 			
 			allColor.each(function() {
-				if ($(this).css('backgroundColor') == color) {
+				if ($(this).data('color') == color) {
 					$(this).addClass('active');
 				}
 			});
 		});
 		
+		$(document).on('click', '.size-item', function(e) {
+			e.preventDefault();
+			var a = $(this),
+				panSizeSelect = a.closest('.product-detail-size'),			
+				size = a.text(),
+				sizeSelected = panSizeSelect.find('.pan-select-size');
+
+			panSizeSelect.find('li').removeClass('active');
+			a.closest('li').addClass('active');
+			sizeSelected.text(size);
+		});
 		
 	},
 	imageExists: function(url, callback) {
