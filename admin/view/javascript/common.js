@@ -680,6 +680,62 @@ var Store = {
 				}				
 			}			
 		});
+
+		// control for button add zone
+		$('#btn-add-zone').click(function() {
+			var tableZone = $('#pan-table-zone'),
+				newZone = $('<tr>'),
+				zoneOrder = $('<td class="text-center">' + (tableZone.find('tr').length + 1) + '</td>'),
+				zoneName = $('<td class="form-group"><input type="text" name="maguss_zone[name][]" class="form-control zone-name" placeholder="Zone name..."></td>'),
+				zoneCost = $('<td class="form-group"><input type="text" name="maguss_zone[cost][]"  class="form-control zone-cost" placeholder="Cost" value="0"></td>'),
+				zoneControl = $('<td class="text-center"><button type="button" class="btn btn-danger btn-sm btn-delete-zone"><span class="glyphicon glyphicon-trash"></span></button></td>');
+
+			newZone.append(zoneOrder, zoneName, zoneCost, zoneControl);
+			tableZone.append(newZone);
+		});
+		// control for button delete zone
+		$('#pan-table-zone').on('click', '.btn-delete-zone', function() {
+			var btn = $(this),
+				conf = window.confirm(self._getMessage('confirm_delete_zone'));
+
+			if (conf) {
+				btn.closest('tr').remove();
+			}
+
+			var n = 0;
+			$('#pan-table-zone').find('tr').each(function() {
+				n += 1;
+				$(this).find('td').first().text(n);
+			});
+		});
+		// validate zone
+		$('#form-maguss').submit(function(e) {
+			var panTableZone = $('#pan-table-zone');
+			panTableZone.find('.form-group').removeClass('has-error');
+			panTableZone.find('.help-block').remove();
+			$('#pan-table-zone').find('tr').each(function() {
+				var row = $(this),
+					zoneName = row.find('.zone-name'),
+					name = $.trim(zoneName.val()),
+					zoneCost = row.find('.zone-cost'),
+					cost = $.trim(zoneCost.val()),
+					numberRex = /^\d+$/;
+
+				if (name == '') {
+					e.preventDefault();
+					zoneName.closest('.form-group').addClass('has-error');
+					zoneName.after('<span class="help-block">' + self._getMessage('zone_name_invalid') + '</span>');
+					return false;
+				}
+
+				if (name != '' && !numberRex.test(cost)) {
+					e.preventDefault();
+					zoneCost.closest('.form-group').addClass('has-error');
+					zoneCost.after('<span class="help-block">' + self._getMessage('zone_cost_invalid') + '</span>');
+					return false;
+				}
+			});			
+		});
 	},
 
 	_addColorRow: function() {
