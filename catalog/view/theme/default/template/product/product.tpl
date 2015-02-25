@@ -68,6 +68,10 @@
                 <?php endif; ?>
             </div>
           <?php } ?>
+          <div class="btn-group btn-group-color">
+            <button type="button" data-toggle="tooltip" class="btn btn-default popper_color_detail" title="More color"><i class="glyphicon glyphicon-leaf"></i></button>
+            <button type="button" data-toggle="tooltip" class="btn btn-default" title="<?php echo $button_wishlist; ?>" onclick="wishlist.add('<?php echo $product_id; ?>');"><i class="fa fa-heart"></i></button>
+          </div>
 
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab-description" data-toggle="tab"><?php echo $tab_description; ?></a></li>
@@ -165,12 +169,10 @@
         <?php $class = 'col-sm-4'; ?>
         <?php } ?>
         <div class="<?php echo $class; ?>">
-          <div class="btn-group">
-            
-            <button type="button" data-toggle="tooltip" class="btn btn-default popper_color_detail hide" title="More color"><i class="glyphicon glyphicon-leaf"></i></button>
+          
 
+          <div class="btn-group btn-group-color-lg">
             <button type="button" data-toggle="tooltip" class="btn btn-default popper_color_detail_lg" title="More color"><i class="glyphicon glyphicon-leaf"></i></button>
-
             <button type="button" data-toggle="tooltip" class="btn btn-default" title="<?php echo $button_wishlist; ?>" onclick="wishlist.add('<?php echo $product_id; ?>');"><i class="fa fa-heart"></i></button>
           </div>
           <?php // echo $product_id; ?>

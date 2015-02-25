@@ -12,7 +12,8 @@ var moreColor = {
 	      html: true,
 	      trigger: 'focus',
 	      content: function () {
-	          return $(this).closest('.product-thumb').find('.popper-color-content-lg').html();
+	          //return $(this).closest('.product-thumb').find('.popper-color-content-lg').html();
+	          return $(this).closest('.product-thumb').find('.popper-color-content').html();
 	      }
 		});
 
@@ -40,7 +41,8 @@ var moreColor = {
 	      html: true,
 	      trigger: 'focus',
 	      content: function () {
-	          return $(this).parent().parent().find('.popper-color-content').html();
+	          //return $(this).parent().parent().find('.popper-color-content').html();
+	          return $('.popper-color-content').html();
 	      }
 		});
 		//product detail
@@ -190,6 +192,7 @@ var moreColor = {
 	 	});
 	},
 	detectMenu: function(){
+		var that = this;
 		var menuHide = $('#hide_menu_left').val();
 		if(menuHide == "true"){
 			$('.nav-menu-left').hide();
@@ -198,11 +201,12 @@ var moreColor = {
 		$(document).on('click','.img-lg-item',function(e){
 			e.preventDefault();
 			var url = $(this).find('img').attr('src');
-			$('.img-lg-append').attr('src',url);
-			$('.img-lg-append-a').attr('href',url);
+			$('#box-product-image-lg').find('.img-lg-append').attr('src',url);
+			$('#box-product-image-lg').find('.img-lg-append-a').attr('href',url);
 			$('.mfp-figure').zoom({
 	 			touch: true,
               	on: 'mouseover'});
+			that.clickColor();
 		});	
 
 	},
