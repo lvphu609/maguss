@@ -256,7 +256,7 @@ class ControllerProductProduct extends Controller {
 			$data['button_compare'] = $this->language->get('button_compare');
 			$data['button_upload'] = $this->language->get('button_upload');
 			$data['button_continue'] = $this->language->get('button_continue');
-
+			$data['hide_menu'] = true;
 			$this->load->model('tool/image');
 			//product detail
 			$qty_detail = !empty($product_info['quantity_detail']) ? $product_info['quantity_detail'] : '[]' ;
