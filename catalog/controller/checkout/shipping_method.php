@@ -129,6 +129,8 @@ class ControllerCheckoutShippingMethod extends Controller {
 			$this->session->data['shipping_method'] = $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]];
 
 			$this->session->data['comment'] = strip_tags($this->request->post['comment']);
+			$this->session->data['shipping_value'] = $this->request->post['shipping_value'];
+			$this->session->data['shipping_location'] = $this->request->post['shipping_location'];
 		}
 
 		$this->response->addHeader('Content-Type: application/json');
