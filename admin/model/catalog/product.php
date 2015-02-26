@@ -1,7 +1,7 @@
 <?php
 class ModelCatalogProduct extends Model {
 	public function getProductSize() {
-		return array('S', 'M', 'L', 'XL', 'XXL', 'XXXL');
+		return array('XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL');
 	}
 
 	public function addProduct($data) {
