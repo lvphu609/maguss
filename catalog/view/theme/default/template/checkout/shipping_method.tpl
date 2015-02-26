@@ -11,11 +11,22 @@
   <label>
     <?php if ($quote['code'] == $code || !$code) { ?>
     <?php $code = $quote['code']; ?>
-    <input type="radio" name="shipping_method" value="<?php echo $quote['code']; ?>" checked="checked" />
+    <input type="radio" name="shipping_method" id="rdo-shipping-method" value="<?php echo $quote['code']; ?>" checked="checked" />
     <?php } else { ?>
-    <input type="radio" name="shipping_method" value="<?php echo $quote['code']; ?>" />
+    <input type="radio" name="shipping_method" id="rdo-shipping-method" value="<?php echo $quote['code']; ?>" />
     <?php } ?>
-    <?php echo $quote['title']; ?> - <?php echo $quote['text']; ?></label>
+    <?php echo $quote['title']; ?> </label>
+    <?php  if ($code == 'maguss.maguss') : ?>
+      <select name="shipping_value" id="cbo-shipping-location" data-numitem="<?php echo $quote['num_item'] ?>">
+        <?php if (count($quote['locations']) > 0) : ?>
+          <?php foreach ($quote['locations']['name'] as $key => $location) : ?>
+            <option data-cost="<?php echo $quote['locations']['cost_format'][$key] ?>" value="<?php echo $quote['locations']['cost'][$key] ?>"><?php echo $location; ?></option>
+          <?php endforeach; ?>
+        <?php endif; ?>
+      </select>
+      <input type="hidden" name="shipping_location" id="hid-shipping-location" value="<?php echo (count($quote['locations']) > 0 ? $quote['locations']['name'][0] : ''); ?>">
+    <?php endif; ?>
+    <span class="label label-success" id="lbl-shipping-cost"><?php echo $quote['text']; ?></span>
 </div>
 <?php } ?>
 <?php } else { ?>

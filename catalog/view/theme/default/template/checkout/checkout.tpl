@@ -691,7 +691,7 @@ $(document).delegate('#button-shipping-method', 'click', function() {
     $.ajax({
         url: 'index.php?route=checkout/shipping_method/save',
         type: 'post',
-        data: $('#collapse-shipping-method input[type=\'radio\']:checked, #collapse-shipping-method textarea'),
+        data: $('#collapse-shipping-method input[type=\'radio\']:checked, #collapse-shipping-method textarea, #collapse-shipping-method select, #collapse-shipping-method input[type=\'hidden\']'),
         dataType: 'json',
         beforeSend: function() {
         	$('#button-shipping-method').button('loading');
