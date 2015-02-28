@@ -68,10 +68,31 @@
                 <?php endif; ?>
             </div>
           <?php } ?>
-          <div class="btn-group btn-group-color">
-            <button type="button" data-toggle="tooltip" class="btn btn-default popper_color_detail" title="More color"><i class="glyphicon glyphicon-leaf"></i></button>
-            <button type="button" data-toggle="tooltip" class="btn btn-default" title="<?php echo $button_wishlist; ?>" onclick="wishlist.add('<?php echo $product_id; ?>');"><i class="fa fa-heart"></i></button>
-          </div>
+          <!-- phu le -->
+            <div class="col-xs-12 col-sm-12 col-lg-12 group-color-product btn-group-color">
+              <?php if(count($group_product_color)>0) : ?>
+                <?php $colorUsed = array(); ?>
+                <?php foreach ($group_product_color as $key => $groupColor) : ?>
+                  <?php if (!in_array($groupColor['color'], $colorUsed)) : ?>
+                    <?php array_push($colorUsed, $groupColor['color']); ?>
+                    <div  class="color-item-product-detail <?php echo ($key == 0 ? 'active' : ''); ?>" style="background-color:<?php echo $groupColor['color']; ?>" data-color="<?php echo $groupColor['color']; ?>">
+                      <div class="group-color hide">
+                          <?php if(count($groupColor['images']) > 0) : ?>
+                              <?php foreach ($groupColor['images'] as $key => $img) : ?>
+                                <?php 
+                                  $classThumb = ($key == 0) ? '' : 'class="image-additional"'; 
+                                ?>
+                                  <li <?php echo $classThumb; ?> >
+                                    <a class="thumbnail" href="<?php echo  $img['url']; ?>" title="<?php echo $heading_title; ?>"><img class="mh500" src="<?php echo  $img['url']; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>"></a>
+                                  </li>
+                              <?php endforeach; ?>
+                          <?php endif; ?>
+                      </div>
+                    </div>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+              <?php endif; ?> 
+            </div>
 
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab-description" data-toggle="tab"><?php echo $tab_description; ?></a></li>
@@ -169,70 +190,6 @@
         <?php $class = 'col-sm-4'; ?>
         <?php } ?>
         <div class="<?php echo $class; ?>">
-          
-
-          <div class="btn-group btn-group-color-lg">
-            <button type="button" data-toggle="tooltip" class="btn btn-default popper_color_detail_lg" title="More color"><i class="glyphicon glyphicon-leaf"></i></button>
-            <button type="button" data-toggle="tooltip" class="btn btn-default" title="<?php echo $button_wishlist; ?>" onclick="wishlist.add('<?php echo $product_id; ?>');"><i class="fa fa-heart"></i></button>
-          </div>
-          <?php // echo $product_id; ?>
-
-          <div class="popper-color-content hide">
-            <?php if(count($group_product_color)>0) : ?>
-              <?php $colorUsed = array(); ?>
-              <?php foreach ($group_product_color as $key => $groupColor) : ?>
-                <?php if (!in_array($groupColor['color'], $colorUsed)) : ?>
-                  <?php array_push($colorUsed, $groupColor['color']); ?>
-                  <div  class="color-item-product-detail <?php echo ($key == 0 ? 'active' : ''); ?>" style="background-color:<?php echo $groupColor['color']; ?>" data-color="<?php echo $groupColor['color']; ?>">
-                    <div class="group-color hide">
-                        <?php if(count($groupColor['images']) > 0) : ?>
-                            <?php foreach ($groupColor['images'] as $key => $img) : ?>
-                              <?php 
-                                $classThumb = ($key == 0) ? '' : 'class="image-additional"'; 
-                              ?>
-                                <li <?php echo $classThumb; ?> >
-                                  <a class="thumbnail" href="<?php echo  $img['url']; ?>" title="<?php echo $heading_title; ?>"><img class="mh500" src="<?php echo  $img['url']; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>"></a>
-                                </li>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </div>
-                  </div>
-                <?php endif; ?>
-              <?php endforeach; ?>
-            <?php endif; ?>              
-          </div>
-
-          <div class="popper-color-content-lg hide">
-            <?php if(count($group_product_color)>0) : ?>
-              <?php $colorUsed = array(); ?>
-              <?php foreach ($group_product_color as $key => $groupColor) : ?>
-                <?php if (!in_array($groupColor['color'], $colorUsed)) : ?>
-                  <?php array_push($colorUsed, $groupColor['color']); ?>
-                  <div  class="color-item-product-detail-lg <?php echo ($key == 0 ? 'active' : ''); ?>" style="background-color:<?php echo $groupColor['color']; ?>" data-color="<?php echo $groupColor['color']; ?>">
-                    <div class="group-color hide">
-                        <?php if(count($groupColor['images']) > 0) : ?>
-                            <?php $imgFirst = ""; ?>
-                            <div class="col-xs-2 col-sm-2 col-lg-2 box-item-image">
-                              <?php foreach ($groupColor['images'] as $key => $img) : ?>
-                                <?php  if ($key == 0){ $imgFirst = $img['url']; } ?>
-                                    <div class="img-additional" >
-                                      <a class="thumbnail img-lg-item" href="javascript;" title="<?php echo $heading_title; ?>"><img class="mh500" src="<?php echo  $img['url']; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>"></a>
-                                    </div>                              
-                              <?php endforeach; ?>
-                            </div>
-                            <div class="col-xs-10 col-sm-10 col-lg-10 img-first">
-                                <div class="img-additional" >
-                                  <a class="thumbnail img-lg-append-a" href="<?php echo  $imgFirst; ?>" title="<?php echo $heading_title; ?>"><img class="mh500 img-lg-append" src="<?php echo  $imgFirst; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>"></a>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                  </div>
-                <?php endif; ?>
-              <?php endforeach; ?>
-            <?php endif; ?>              
-          </div>
-
           <h1><?php echo $heading_title; ?></h1>
           <ul class="list-unstyled">
             <?php if ($manufacturer) { ?>
@@ -410,6 +367,37 @@
               <div class="help-block" id="recurring-description"></div>
             </div>
             <?php } ?>
+            <!-- phu le -->
+            <div class="col-xs-12 col-sm-12 col-lg-12 group-color-product btn-group-color-lg">
+              <?php if(count($group_product_color)>0) : ?>
+                <?php $colorUsed = array(); ?>
+                <?php foreach ($group_product_color as $key => $groupColor) : ?>
+                  <?php if (!in_array($groupColor['color'], $colorUsed)) : ?>
+                    <?php array_push($colorUsed, $groupColor['color']); ?>
+                    <div  class="color-item-product-detail-lg <?php echo ($key == 0 ? 'active' : ''); ?>" style="background-color:<?php echo $groupColor['color']; ?>" data-color="<?php echo $groupColor['color']; ?>">
+                      <div class="group-color hide">
+                          <?php if(count($groupColor['images']) > 0) : ?>
+                              <?php $imgFirst = ""; ?>
+                              <div class="col-xs-2 col-sm-2 col-lg-2 box-item-image">
+                                <?php foreach ($groupColor['images'] as $key => $img) : ?>
+                                  <?php  if ($key == 0){ $imgFirst = $img['url']; } ?>
+                                      <div class="img-additional" >
+                                        <a class="thumbnail img-lg-item" href="javascript;" title="<?php echo $heading_title; ?>"><img class="mh500" src="<?php echo  $img['url']; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>"></a>
+                                      </div>                              
+                                <?php endforeach; ?>
+                              </div>
+                              <div class="col-xs-10 col-sm-10 col-lg-10 img-first">
+                                  <div class="img-additional" >
+                                    <a class="thumbnail img-lg-append-a" href="<?php echo  $imgFirst; ?>" title="<?php echo $heading_title; ?>"><img class="mh500 img-lg-append" src="<?php echo  $imgFirst; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>"></a>
+                                  </div>
+                              </div>
+                          <?php endif; ?>
+                      </div>
+                    </div>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+              <?php endif; ?> 
+            </div>
             <!-- phucnguyen -->
             <div class="form-group">
               <label class="control-label" for="input-quantity"><?php echo $entry_qty; ?></label>
@@ -518,10 +506,9 @@
               <?php } ?>
             </div>
             <div class="button-group">
-              <button type="button" onclick="cart.add('<?php echo $product['product_id']; ?>');"><span class="hidden-xs hidden-sm hidden-md"><?php echo $button_cart; ?></span> <i class="fa fa-shopping-cart"></i></button>
-              <button class="popper_color" type="button" data-toggle="popover" title="More color"><i class="glyphicon glyphicon-leaf"></i></button> 
-              <button type="button" data-toggle="tooltip" title="<?php echo $button_wishlist; ?>" onclick="wishlist.add('<?php echo $product['product_id']; ?>');"><i class="fa fa-heart"></i></button>
-            </div>             
+              <button type="button" onclick="cart.add('<?php echo $product['product_id']; ?>');"><i class="fa fa-shopping-cart"></i> <span class=""><?php echo $button_cart; ?></span></button>
+              <button class="popper_color" type="button" data-toggle="popover" title="More color"><i class="glyphicon glyphicon-leaf"></i><span class="hidden-xs hidden-lg"> MORE COLOR</span></button>
+            </div>            
           </div>
         </div>
         <?php if (($column_left && $column_right) && ($i % 2 == 0)) { ?>
