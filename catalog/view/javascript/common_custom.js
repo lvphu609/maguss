@@ -10,7 +10,7 @@ var moreColor = {
 	      placement: 'top',
 	      container: 'body',
 	      html: true,
-	      trigger: 'focus',
+	      trigger: 'click',
 	      content: function () {
 	          //return $(this).closest('.product-thumb').find('.popper-color-content-lg').html();
 	          return $(this).closest('.product-thumb').find('.popper-color-content').html();
@@ -39,7 +39,7 @@ var moreColor = {
 	      placement: 'bottom',
 	      container: 'body',
 	      html: true,
-	      trigger: 'focus',
+	      trigger: 'click',
 	      content: function () {
 	          //return $(this).parent().parent().find('.popper-color-content').html();
 	          return $('.popper-color-content').html();
@@ -50,7 +50,7 @@ var moreColor = {
 	      placement: 'bottom',
 	      container: 'body',
 	      html: true,
-	      trigger: 'focus',
+	      trigger: 'click',
 	      content: function () {
 	          return $(this).parent().parent().find('.popper-color-content-lg').html();
 	      }
@@ -60,7 +60,7 @@ var moreColor = {
 				currColor = $(this).data('color');
 
 			$('.popper_color_detail').data('color', currColor);
-			$(this).closest('.popover-content').find('.color-item-product-detail').removeClass('active');
+			$(this).closest('.group-color-product').find('.color-item-product-detail').removeClass('active');
 			$(this).addClass('active');
 
 			var quantityDetail = $('#hid-quantity-detail').text(),
@@ -97,7 +97,7 @@ var moreColor = {
 				currColor = $(this).data('color');
 
 			$('.popper_color_detail_lg').data('color', currColor);
-			$(this).closest('.popover-content').find('.color-item-product-detail-lg').removeClass('active');
+			$(this).closest('.group-color-product').find('.color-item-product-detail-lg').removeClass('active');
 			$(this).addClass('active');
 
 			var quantityDetail = $('#hid-quantity-detail').text(),

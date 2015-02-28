@@ -151,9 +151,8 @@
                 <?php } ?>
               </div>
               <div class="button-group">
-                <button type="button" onclick="cart.add('<?php echo $product['product_id']; ?>');"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $button_cart; ?></span></button>
-                <button class="popper_color" type="button" data-toggle="popover" title="More color"><i class="glyphicon glyphicon-leaf"></i></button>
-                <button type="button" data-toggle="tooltip" title="<?php echo $button_wishlist; ?>" onclick="wishlist.add('<?php echo $product['product_id']; ?>');"><i class="fa fa-heart"></i></button>                
+                <button type="button" onclick="cart.add('<?php echo $product['product_id']; ?>');"><i class="fa fa-shopping-cart"></i> <span class=""><?php echo $button_cart; ?></span></button>
+                <button class="popper_color" type="button" data-toggle="popover" title="More color"><i class="glyphicon glyphicon-leaf"></i><span class="hidden-xs hidden-lg"> MORE COLOR</span></button>
               </div>  
             </div>
           </div>

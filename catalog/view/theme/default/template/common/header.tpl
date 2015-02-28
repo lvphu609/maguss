@@ -78,7 +78,7 @@
             <?php if ($category['children']) { ?>
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $category['name']; ?></a>
-              <ul class="dropdown-menu" role="menu">
+              <ul class="dropdown-menu menu-sub-mb" role="menu">
                   <?php foreach (array_chunk($category['children'], ceil(count($category['children']) / $category['column'])) as $children) { ?>
                     <?php foreach ($children as $child) { ?>
                     <li><a href="<?php echo $child['href']; ?>"><?php echo $child['name']; ?></a></li>
@@ -96,7 +96,7 @@
 
           <ul class="nav navbar-nav navbar-right">
             <li><a href="<?php echo $contact; ?>"><i class="fa fa-phone"></i> <?php echo $telephone; ?></a></li>            
-            <li><a href="<?php echo $wishlist; ?>" id="wishlist-total" title="<?php echo $text_wishlist; ?>"><i class="fa fa-heart"></i> <?php echo $text_wishlist; ?></a></li>
+            <?php /* <li><a href="<?php echo $wishlist; ?>" id="wishlist-total" title="<?php echo $text_wishlist; ?>"><i class="fa fa-heart"></i> <?php echo $text_wishlist; ?></a></li> */ ?>
             <li><a href="<?php echo $shopping_cart; ?>" title="<?php echo $text_shopping_cart; ?>"><i class="fa fa-shopping-cart"></i> <?php echo $text_shopping_cart; ?></a></li>
             <li><a href="<?php echo $checkout; ?>" title="<?php echo $text_checkout; ?>"><i class="fa fa-share"></i> <?php echo $text_checkout; ?></a></li>
             <li class="dropdown"><a href="<?php echo $account; ?>" title="<?php echo $text_account; ?>" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo $text_account; ?><span class="caret"></span></a>
