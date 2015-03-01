@@ -1055,7 +1055,7 @@ footer .row{
   margin: 5px;
 }
 
-.color-item-product-detail-lg.active {
+.color-item-product-detail-lg.active, .color-item.active {
   box-shadow: 0px 0px 6px #000000;
 }
 

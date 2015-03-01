@@ -114,12 +114,27 @@
           <div class="product-thumb product-id-<?php echo $product['product_id']; ?>">
             <div class="popper-color-content hide">
               <?php  $product_thumb = ""; ?>
-              <?php if(count($product['quantity_detail'])>0) : ?>
-                <?php foreach($product['quantity_detail'] as $key => $row):?>
-                   <?php  if($key == 0) $product_thumb = $row['images'][0]['url'];  ?>
-                   <div class="color-item" style="background-color:<?php echo $row['color'] ?>" data-url="<?php echo $row['images'][0]['url'] ?>" data-root="product-id-<?php echo $product['product_id']; ?>"></div>
+              <?php  if(count($product['quantity_detail'])>0) : ?>
+                <?php $colorUsed = array(); ?>
+                <?php foreach ($product['quantity_detail'] as $key => $groupColor) : ?>
+                  <?php if (!in_array($groupColor['color'], $colorUsed)) : ?>
+                    <?php array_push($colorUsed, $groupColor['color']); ?>
+                    <?php if(count($groupColor['images']) > 0) : ?>
+                        <?php foreach ($groupColor['images'] as $key1 => $img) : ?>
+                          <?php
+                            if($key == 0 && $key1 == 0){
+                              $product_thumb = $img['url'];
+                            }
+                          ?>
+                          <?php  if($key1 == 0) : ?>
+                              <div  class="color-item <?php echo ($key == 0 ? 'active' : ''); ?>" style="background-color:<?php echo $groupColor['color']; ?>" data-color="<?php echo $groupColor['color']; ?>" data-url="<?php echo $img['url']; ?>" data-root="product-id-<?php echo $product['product_id']; ?>"> </div>
+                          <?php  endif; ?>                                   
+                          
+                        <?php endforeach; ?>
+                    <?php endif; ?>              
+                  <?php endif; ?>
                 <?php endforeach; ?>
-              <?php endif; ?>
+              <?php endif;  ?>
             </div>
             <div class="image"><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product_thumb; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive" /></a></div>
             <div>
@@ -152,7 +167,7 @@
               </div>
               <div class="button-group">
                 <button type="button" onclick="cart.add('<?php echo $product['product_id']; ?>');"><i class="fa fa-shopping-cart"></i> <span class=""><?php echo $button_cart; ?></span></button>
-                <button class="popper_color" type="button" data-toggle="popover" title="More color"><i class="glyphicon glyphicon-leaf"></i><span class="hidden-xs hidden-lg"> MORE COLOR</span></button>
+                <button class="popper_color product-id-<?php echo $product['product_id']; ?>" type="button" data-toggle="popover" title="More color"><i class="glyphicon glyphicon-leaf"></i><span class="hidden-xs hidden-lg"> MORE COLOR</span></button>
               </div>  
             </div>
           </div>
