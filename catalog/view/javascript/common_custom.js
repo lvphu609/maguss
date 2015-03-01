@@ -12,12 +12,30 @@ var moreColor = {
 	      html: true,
 	      trigger: 'click',
 	      content: function () {
-	          //return $(this).closest('.product-thumb').find('.popper-color-content-lg').html();
-	          return $(this).closest('.product-thumb').find('.popper-color-content').html();
+	          var colorSet = $(this).attr('data-color');
+	          var content = "";
+	          if(typeof colorSet != "undefined"){
+	          	$(this).closest('.product-thumb').find('.popper-color-content').find('.color-item').removeClass('active');
+	          	content = $(this).closest('.product-thumb').find('.popper-color-content').find('.color-item');
+	          	$.each(content,function(key,div){
+	          		if($(div).attr('data-color') == colorSet){
+	          			$(div).addClass('active');
+	          		}
+	          	});
+	          }
+	          content = $(this).closest('.product-thumb').find('.popper-color-content').html();
+	          return content;
 	      }
 		});
 
 		$(document).on('click','.color-item',function(){
+			var groupColorImage = $(this).find('.group-color').html(),
+				currColor = $(this).data('color');
+
+			$('.'+$(this).attr('data-root')).attr('data-color', currColor);
+			$(this).closest('.popover-content').find('.color-item').removeClass('active');
+			$(this).addClass('active');
+
 			var imageUrl = $(this).attr('data-url');
 			var productId = $(this).attr('data-root');
 			var imageLoaderHtml = $('#image_loader').html();
@@ -59,7 +77,7 @@ var moreColor = {
 			var groupColorImage = $(this).find('.group-color').html(),
 				currColor = $(this).data('color');
 
-			$('.popper_color_detail').data('color', currColor);
+			$(this).closest('.popper_color_detail').data('color', currColor);
 			$(this).closest('.group-color-product').find('.color-item-product-detail').removeClass('active');
 			$(this).addClass('active');
 
@@ -222,10 +240,29 @@ var moreColor = {
 	eventHandle: function() {
 	  this.selectShippingLocation();
 	},
+	closePoperEvent: function(){
+		var that = this;
+		$(document).mouseup(function (e)
+		{
+		    var container = $(".popover.fade.top.in");
+
+		    if (!container.is(e.target) // if the target of the click isn't the container...
+		        && container.has(e.target).length === 0) // ... nor a descendant of the container
+		    {
+		        $('[data-toggle="popover"]').each(function () {
+			        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+			            $(this).popover('hide');
+			        }
+			    });
+		    }
+		});
+		//$('.popover.fade.top.in').hide();
+	},
 	run: function(){
 		this.clickColor();
 		this.zoomImage();
 		this.detectMenu();
 		this.eventHandle();
+		this.closePoperEvent();
 	}
 }

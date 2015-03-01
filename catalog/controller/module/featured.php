@@ -58,7 +58,7 @@ class ControllerModuleFeatured extends Controller {
 				}
 
 				//get quantity detail
-				$quantity_detail = !empty($product_info['quantity_detail']) ? $product_info['quantity_detail'] : '[]' ;
+				/*$quantity_detail = !empty($product_info['quantity_detail']) ? $product_info['quantity_detail'] : '[]' ;
 				$quantityDetail = json_decode($quantity_detail, true);
 				if (count($quantityDetail) > 0) {
 					foreach ($quantityDetail as $key => $value) {
@@ -71,7 +71,23 @@ class ControllerModuleFeatured extends Controller {
 					$quantityDetail = $quantityDetail;
 				} else {
 					$quantityDetail = array();
+				}*/
+				//product detail
+				$qty_detail = !empty($product_info['quantity_detail']) ? $product_info['quantity_detail'] : '[]' ;
+				$quantityDetail = json_decode($qty_detail, true);
+				if (count($quantityDetail) > 0) {
+					foreach ($quantityDetail as $key => $value) {
+						if (count($value['images']) > 0) {
+							foreach ($value['images'] as $imgKey => $img) {
+								$quantityDetail[$key]['images'][$imgKey]['url'] = $this->model_tool_image->resize($img['name'], 768, 1024);
+							}
+						}
+					}
+					$quantityDetail = $quantityDetail;
+				} else {
+					$quantityDetail = array();
 				}
+
 				// var_dump($quantityDetail);die();
 				$data['products'][] = array(
 					'product_id'  => $product_info['product_id'],
